@@ -16,6 +16,7 @@ doreset() {
         sed -i "s|^$CURDIR	.*$|$CURDIR	$1|" $DIRS
     fi
     exit 0
+    # TODO case of new dir
 }
 
 # }}}
@@ -35,7 +36,7 @@ do
     case "$flag" in
         d) DRYRUN=true ;;
         h) usage ;;
-        r) doreset $OPTARG ;;
+        r) doreset "$OPTARG" ;;
         m) DONTRUN=true ;;
         v) PLAYER='vlc' ;;
        \?) echo "Invalid option -$OPTARG"
@@ -91,5 +92,5 @@ fi
 if $DONTRUN ; then
     echo Up next: $UPNEXT
 else
-    $PLAYER $UPNEXT
+    $PLAYER "$UPNEXT"
 fi
