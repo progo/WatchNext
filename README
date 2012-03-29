@@ -1,0 +1,20 @@
+WatchNext
+
+A bash script that saves a pointer to your last watched show of something. When
+you feel like watching the next show following the last one, you simply run
+`WatchNext.sh` and mplayer pops up. You may reset and fiddle with the settings.
+
+Current usage:
+
+    Watch shows and this keeps record of them for you.
+    Usage: `basename $0` [options] 
+       -h         this help
+       -d         do a dry run
+       -r <file>  reset to this file
+       -m         don't run mplayer; just print the next
+       -v         run vlc instead
+
+There are couple of problems with directory and file matches. I'd prefer a way
+to search without any globbings or regexp, because they aren't needed here.
+
+Please chime in if you have an idea :)
