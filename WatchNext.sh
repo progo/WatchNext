@@ -8,19 +8,30 @@ CURDIR=`pwd`
 DONTRUN=false
 PLAYER='mplayer -fs'
 
-# Force current file in curdir to this {{{
+# fn: Check if directory is on $DIRS {{{
+is_dir_on() {
+    # check if there's a record in $DIRS. We'll act according to that.
+    LASTWATCHED=`grep "$CURDIR	" $DIRS|cut -f 2`
+    [ ! -z "$LASTWATCHED" ]
+}
+#}}}
+# fn: Force current file in curdir to this {{{
 doreset() {
     if $DRYRUN ; then
-        echo Reset to $1.
-    else
+        echo "Reset to $1. (Don't do anything during dry run.)"
+        exit 0
+    fi
+
+    if is_dir_on ; then
         sed -i "s|^$CURDIR	.*$|$CURDIR	$1|" $DIRS
+    else
+        echo "$CURDIR	$1" >> $DIRS
     fi
     exit 0
-    # TODO case of new dir
 }
 
 # }}}
-# Arguments {{{
+# do arguments {{{
 usage() {
     echo "Watch shows and this keeps record of them for you."
     echo "Usage: `basename $0` [options] "
