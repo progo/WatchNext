@@ -18,7 +18,7 @@ is_dir_on() {
 # fn: Force current file in curdir to this {{{
 doreset() {
     if $DRYRUN ; then
-        echo "Reset to $1. (Don't do anything during dry run.)"
+        echo "Reset to $1. (Didn't do anything during dry run.)"
         exit 0
     fi
 
@@ -33,12 +33,12 @@ doreset() {
 # }}}
 # do arguments {{{
 usage() {
-    echo "Watch shows and this keeps record of them for you."
+    echo "Watch shows and keep a pointer of recently viewed ones."
     echo "Usage: `basename $0` [options] "
     echo "   -h         this help"
     echo "   -d         do a dry run"
-    echo "   -r <file>  reset to this file"
-    echo "   -m         don't run mplayer; just print the next"
+    echo "   -r <file>  reset pointer to this file"
+    echo "   -m         don't play; just print the next. Advances the pointer."
     echo "   -v         run vlc instead"
     exit
 }
