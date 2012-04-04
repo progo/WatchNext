@@ -7,6 +7,9 @@ DRYRUN=false
 CURDIR=`pwd`
 DONTRUN=false
 PLAYER='mplayer -fs'
+EXTENSIONS='avi|mkv|ts|mp4|mpg|mpeg|flv'
+FINDARGS="-regextype posix-extended -maxdepth 1 -type f \
+    -iregex .*\.($EXTENSIONS)$"
 
 # fn: Check if directory is on $DIRS {{{
 is_dir_on() {
@@ -68,7 +71,7 @@ LASTWATCHED=`grep "$CURDIR	" $DIRS|cut -f 2`
 if [ -z "$LASTWATCHED" ]
 then
     # Directory with no records. We'll pick the first one
-    UPNEXT=`find . -maxdepth 1 -type f|sort -f |head -n 1 | sed -e "s#^\./##"`
+    UPNEXT=`find . $FINDARGS|sort -f |head -n 1 | sed -e "s#^\./##"`
     LASTWATCHED='(none, starting from beginning)'
 
     # mark the spot
@@ -82,7 +85,7 @@ then
 
 else
     # we have a record
-    UPNEXT=`find . -maxdepth 1 -type f|sort -f |
+    UPNEXT=`find . $FINDARGS|sort -f |
         sed "0,/$LASTWATCHED/d" | head -n 1 | sed -e "s#^\./##"`
     
     # update on the spot
