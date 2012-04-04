@@ -18,6 +18,17 @@ is_dir_on() {
     [ ! -z "$LASTWATCHED" ]
 }
 #}}}
+# fn: Rewatch the recently watched video. {{{
+rewatch() {
+    LASTWATCHED=`grep "$CURDIR	" $DIRS|cut -f 2`
+    if $DRYRUN ;then
+        echo "Rewatching $LASTWATCHED"
+        exit
+    fi
+    $PLAYER "$LASTWATCHED"
+    exit
+}
+#}}}
 # fn: Force current file in curdir to this {{{
 doreset() {
     if $DRYRUN ; then
@@ -41,16 +52,18 @@ usage() {
     echo "   -h         this help"
     echo "   -d         do a dry run"
     echo "   -r <file>  reset pointer to this file"
-    echo "   -m         don't play; just print the next. Advances the pointer."
+    echo "   -w         watch the last video again"
+    echo "   -m         don't play; just print the next (advances the pointer)"
     echo "   -v         run vlc instead"
     exit
 }
-while getopts ":hdr:mv" flag
+while getopts ":hdr:mvw" flag
 do
     case "$flag" in
         d) DRYRUN=true ;;
         h) usage ;;
         r) doreset "$OPTARG" ;;
+        w) rewatch ;;
         m) DONTRUN=true ;;
         v) PLAYER='vlc' ;;
        \?) echo "Invalid option -$OPTARG"
