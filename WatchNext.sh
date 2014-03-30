@@ -56,6 +56,7 @@ usage() {
     echo "   -w         watch the last video again"
     echo "   -m         don't play; just print the next (advances the pointer)"
     echo "   -v         run vlc instead"
+    echo "   -2         run mplayer2 instead"
     exit
 }
 while getopts ":hdr:mvw" flag
@@ -67,6 +68,7 @@ do
         w) rewatch ;;
         m) DONTRUN=true ;;
         v) PLAYER='vlc' ;;
+        2) PLAYER='mplayer2 -fs' ;;
        \?) echo "Invalid option -$OPTARG"
            echo
            usage ;;
