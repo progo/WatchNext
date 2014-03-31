@@ -59,7 +59,7 @@ usage() {
     echo "   -2         run mplayer2 instead"
     exit
 }
-while getopts ":hdr:mvw" flag
+while getopts ":hdr:mv2w" flag
 do
     case "$flag" in
         d) DRYRUN=true ;;
