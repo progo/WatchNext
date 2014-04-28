@@ -10,14 +10,18 @@ you feel like watching the next show following the last one, you simply run
 Current usage
 -------------
 
- Watch shows and keep a pointer of recently viewed ones.
- Usage: WatchNext [options] 
-    -h         this help
-    -d         do a dry run
-    -r <file>  reset pointer to this file
-    -w         watch the last video again
-    -m         don't play; just print the next (advances the pointer)
-    -v         run vlc instead
+Watch shows and keep a pointer of recently viewed ones.
+Usage: WatchNext [options] 
+   -h         this help
+   -d         do a dry run
+   -r <file>  reset pointer to this file
+   -w         watch the last video again
+   -m         don't play; just print the next (advances the pointer)
+   -f         ignore $WATCHNEXT_PLAYER, use default (mplayer -fs)
+
+Use env variable $WATCHNEXT_PLAYER to setup your preferred app.
+
+
 
 TODOs and things
 ----------------

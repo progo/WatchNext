@@ -6,11 +6,18 @@ DIRS=~/.watched_what
 DRYRUN=false
 CURDIR=`pwd`
 DONTRUN=false
-PLAYER='mplayer -fs'
+DEFAULT_PLAYER='mplayer -fs'
 EXTENSIONS='avi|mkv|ts|mp4|mpg|mpeg|flv'
 FINDPREARGS=' -L '
 FINDARGS="-regextype posix-extended -maxdepth 1 -type f \
     -iregex .*\.($EXTENSIONS)$"
+
+if [ -z "$WATCHNEXT_PLAYER" ]
+then
+    PLAYER="$DEFAULT_PLAYER"
+else
+    PLAYER="$WATCHNEXT_PLAYER"
+fi
 
 # fn: Check if directory is on $DIRS {{{
 is_dir_on() {
@@ -55,20 +62,20 @@ usage() {
     echo "   -r <file>  reset pointer to this file"
     echo "   -w         watch the last video again"
     echo "   -m         don't play; just print the next (advances the pointer)"
-    echo "   -v         run vlc instead"
-    echo "   -2         run mplayer2 instead"
+    echo "   -f         ignore \$WATCHNEXT_PLAYER, use default ($DEFAULT_PLAYER)"
+    echo
+    echo "Use env variable \$WATCHNEXT_PLAYER to setup your preferred app."
     exit
 }
-while getopts ":hdr:mv2w" flag
+while getopts ":hdr:mwf" flag
 do
     case "$flag" in
         d) DRYRUN=true ;;
         h) usage ;;
         r) doreset "$OPTARG" ;;
-        w) rewatch ;;
+        w) DO_REWATCH=true ;;
         m) DONTRUN=true ;;
-        v) PLAYER='vlc' ;;
-        2) PLAYER='mplayer2 -fs' ;;
+        f) PLAYER="$DEFAULT_PLAYER" ;;
        \?) echo "Invalid option -$OPTARG"
            echo
            usage ;;
@@ -80,6 +87,9 @@ done
 shift $((OPTIND-1))
 
 #}}}
+
+# Check if we don't want to advance pointers.
+[ -n "$DO_REWATCH" ] && rewatch
 
 # check if there's a record in $DIRS. We'll act according to that.
 LASTWATCHED=`grep "$CURDIR	" $DIRS|cut -f 2`
