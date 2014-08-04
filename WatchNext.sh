@@ -19,6 +19,13 @@ else
     PLAYER="$WATCHNEXT_PLAYER"
 fi
 
+###
+###
+play() {
+    mpc pause >> /dev/null 2>&1
+    $PLAYER "$1"
+}
+
 # fn: Check if directory is on $DIRS {{{
 is_dir_on() {
     # check if there's a record in $DIRS. We'll act according to that.
@@ -33,7 +40,7 @@ rewatch() {
         echo "Rewatching $LASTWATCHED"
         exit
     fi
-    $PLAYER "$LASTWATCHED"
+    play "$LASTWATCHED"
     exit
 }
 #}}}
@@ -132,5 +139,5 @@ fi
 if $DONTRUN ; then
     echo Up next: $UPNEXT
 else
-    $PLAYER "$UPNEXT"
+    play "$UPNEXT"
 fi
